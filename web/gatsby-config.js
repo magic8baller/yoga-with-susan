@@ -4,20 +4,44 @@ require('dotenv').config({
 })
 
 const clientConfig = require('./client-config')
-
+const token = process.env.SANITY_READ_TOKEN
 const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   plugins: [
-    'gatsby-plugin-postcss',
+    `gatsby-plugin-emotion`,
+    'gatsby-plugin-theme-ui',
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        policy: [{userAgent: '*', allow: '/'}]
+      }
+    },
+    'gatsby-plugin-sharp',
+    'gatsby-transformer-sharp',
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'images',
+        path: `${__dirname}/src/images`
+      }
+    },
+    {
+      resolve: 'gatsby-source-instagram',
+      options: {
+        username: 'susanturis'
+      }
+    },
+    'gatsby-plugin-smoothscroll',
+    'gatsby-plugin-react-svg',
     'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-source-sanity',
       options: {
         ...clientConfig.sanity,
-        token: process.env.SANITY_READ_TOKEN,
+        token,
         watchMode: !isProd,
-        overlayDrafts: !isProd
+        overlayDrafts: !isProd && token
       }
     }
   ]

@@ -1,17 +1,18 @@
 import React from 'react'
-import {graphql} from 'gatsby'
+import {Link, graphql} from 'gatsby'
+import format from 'date-fns/format'
+import Img from '../components/Img'
+import Layout from '../components/triangles/Layout'
+import BlogPreview from '../components/BlogPreview'
+import PostGrid, {PostGridItem} from '../components/Post.styled'
+// import H from '../components/mdxComponents/Headings';
+// import Pagination from '../components/Pagination';
+// import { PostMetaTags } from '../components/MetaTags';
 import {
   mapEdgesToNodes,
   filterOutDocsWithoutSlugs,
   filterOutDocsPublishedInTheFuture
 } from '../lib/helpers'
-// import BlogPostPreviewList from '../components/blog-post-preview-list'
-// import Container from '../components/container'
-import GraphQLErrorList from '../components/graphql-error-list'
-import SEO from '../components/seo'
-import Layout from '../components/Layout'
-import Nav from '../components/Header/Nav/Navbar'
-import Landing from '../components/triangles/About'
 export const query = graphql`
   fragment SanityImage on SanityMainImage {
     crop {
@@ -35,7 +36,7 @@ export const query = graphql`
     }
   }
 
-  query IndexPageQuery {
+  query BlogPageQuery {
     site: sanitySiteSettings(_id: { regex: "/(drafts.|)siteSettings/" }) {
       title
       description
@@ -59,23 +60,17 @@ export const query = graphql`
           slug {
             current
           }
+          categories {
+            title
+            id
+            description
+          }
         }
       }
     }
   }
 `
-
-const IndexPage = props => {
-  const {data, errors} = props
-
-  if (errors) {
-    return (
-      <Layout>
-        <GraphQLErrorList errors={errors} />
-      </Layout>
-    )
-  }
-
+const Blog = function ({data, pageContext, path}) {
   const site = (data || {}).site
   const postNodes = (data || {}).posts
     ? mapEdgesToNodes(data.posts)
@@ -84,23 +79,14 @@ const IndexPage = props => {
     : []
 
   console.log(postNodes)
-  if (!site) {
-    throw new Error(
-      'Missing "Site settings". Open the studio at http://localhost:3333 and add some content to "Site settings" and restart the development server.'
-    )
-  }
-
+  if (!data) return <p>Shooooot! No Post found!</p>
   return (
-    <Layout>
-      <SEO
-        title={site.title}
-        description={site.description}
-        keywords={site.keywords}
-      />
-      <Nav/>
-     <Landing />
-    </Layout>
+    <>
+      <Layout>
+        {postNodes && <BlogPreview posts={postNodes} />}
+      </Layout>
+    </>
   )
 }
 
-export default IndexPage
+export default Blog
