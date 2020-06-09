@@ -35,11 +35,13 @@ export default {
     {
       name: 'facebook',
       type: 'string',
+      title: 'Facebook',
       description: 'Facebook account.'
     },
     {
       name: 'instagram',
       type: 'string',
+      title: 'Instagram',
       description: 'Instagram account.'
     },
     {

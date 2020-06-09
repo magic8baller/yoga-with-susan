@@ -9,8 +9,8 @@ const useSiteMetadata = () => {
           # url
           description
           keywords
-          # instagram
-          # facebook
+          instagram
+          facebook
         }
       }
     `
