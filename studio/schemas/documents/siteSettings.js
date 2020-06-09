@@ -31,6 +31,16 @@ export default {
       description: 'Publish an author and set a reference to them here.',
       title: 'Author',
       to: [{type: 'author'}]
+    },
+    {
+      name: 'facebook',
+      type: 'string',
+      description: 'Facebook account.'
+    },
+    {
+      name: 'instagram',
+      type: 'string',
+      description: 'Instagram account.'
     }
   ]
 }
