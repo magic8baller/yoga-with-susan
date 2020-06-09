@@ -41,6 +41,11 @@ export default {
       name: 'instagram',
       type: 'string',
       description: 'Instagram account.'
+    },
+    {
+      name: 'url',
+      type: 'string',
+      title: 'URL'
     }
   ]
 }
